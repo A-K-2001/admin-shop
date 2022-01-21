@@ -6,10 +6,22 @@ import {
   PhoneAndroid,
   Publish,
 } from "@material-ui/icons";
-import { Link } from "react-router-dom";
+import { compose } from "@reduxjs/toolkit";
+import { Link, useLocation } from "react-router-dom";
 import "./user.css";
+import { useSelector } from "react-redux";
 
 export default function User() {
+
+    const location = useLocation();
+    const userid = location.pathname.split("/")[2];
+
+    const user = useSelector(state=> state.user.users.find((user)=>userid === user._id));
+
+    // console.log(user);
+
+
+
   return (
     <div className="user">
       <div className="userTitleContainer">
@@ -27,8 +39,8 @@ export default function User() {
               className="userShowImg"
             />
             <div className="userShowTopTitle">
-              <span className="userShowUsername">Anna Becker</span>
-              <span className="userShowUserTitle">Software Engineer</span>
+              <span className="userShowUsername">{user.username}</span>
+              {/* <span className="userShowUserTitle">Software Engineer</span> */}
             </div>
           </div>
           <div className="userShowBottom">
@@ -39,7 +51,7 @@ export default function User() {
             </div>
             <div className="userShowInfo">
               <CalendarToday className="userShowIcon" />
-              <span className="userShowInfoTitle">10.12.1999</span>
+              <span className="userShowInfoTitle">{user.createdAt}</span>
             </div>
             <span className="userShowTitle">Contact Details</span>
             <div className="userShowInfo">
@@ -48,7 +60,7 @@ export default function User() {
             </div>
             <div className="userShowInfo">
               <MailOutline className="userShowIcon" />
-              <span className="userShowInfoTitle">annabeck99@gmail.com</span>
+              <span className="userShowInfoTitle">{user.email}</span>
             </div>
             <div className="userShowInfo">
               <LocationSearching className="userShowIcon" />
@@ -64,7 +76,7 @@ export default function User() {
                 <label>Username</label>
                 <input
                   type="text"
-                  placeholder="annabeck99"
+                  placeholder={user.username  }
                   className="userUpdateInput"
                 />
               </div>
@@ -72,7 +84,7 @@ export default function User() {
                 <label>Full Name</label>
                 <input
                   type="text"
-                  placeholder="Anna Becker"
+                  placeholder={user.username}
                   className="userUpdateInput"
                 />
               </div>
@@ -80,7 +92,7 @@ export default function User() {
                 <label>Email</label>
                 <input
                   type="text"
-                  placeholder="annabeck99@gmail.com"
+                  placeholder={user.email}
                   className="userUpdateInput"
                 />
               </div>
